@@ -21,9 +21,6 @@ jobs:
       - name: Append number to CSV
         run: |
           echo "${{ inputs.phone_number }}" >> spam.csv
-          # Optional: sort or remove duplicates if you want
-          #  -u: remove duplicated rows
-          sort -u spam.csv -o spam.csv
 
       - name: Commit and push
         run: |
