@@ -1,0 +1,33 @@
+name: Add Spam Phone Number
+
+on:
+  workflow_dispatch:
+    inputs:
+      phone_number:
+        description: 'The spam phone number to append'
+        required: true
+        type: string
+
+jobs:
+  add-number:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Append number to CSV
+        run: |
+          echo "${{ inputs.phone_number }}" >> spam.csv
+          # Optional: sort or remove duplicates if you want
+          # sort -u spam.csv -o spam.csv
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]"
+          git add .
+          git commit -m "Add spam number: ${{ inputs.phone_number }}" || echo "No changes to commit"
+          git push
